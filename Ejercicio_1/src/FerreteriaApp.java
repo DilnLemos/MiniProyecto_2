@@ -42,14 +42,14 @@ public class FerreteriaApp extends JFrame {
         boton_Agregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               // mostrarDialogoAgregarProducto(panelInventario);
+               mostrarDialogoAgregarProducto(panelInventario);
             }
         });
 
         boton_Eliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               // mostrarDialogoEliminarProducto(panelInventario);
+               mostrarDialogoEliminarProducto(panelInventario);
             }
         });
 
@@ -141,4 +141,60 @@ public class FerreteriaApp extends JFrame {
         estadisticas.append("\nHerramienta mas usada: ").append(herramientaMasUsada);
 
         JOptionPane.showMessageDialog(this, estadisticas.toString(), "Estadisticas del Inventario", JOptionPane.INFORMATION_MESSAGE);
-    }}
+    }
+
+    // Método para mostrar un diálogo para agregar un nuevo producto al inventario
+    private void mostrarDialogoAgregarProducto(JPanel panelInventario) {
+        JTextField txtNombre = new JTextField();
+        JTextField txtDescripcion = new JTextField();
+        JTextField txtPrecio = new JTextField();
+        JTextField txtStock = new JTextField();
+        JTextField txtMaterial = new JTextField();
+        JTextField txtUso = new JTextField();
+        JTextField txtHerramienta = new JTextField();
+        JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+        panel.add(new JLabel("Nombre:"));
+        panel.add(txtNombre);
+        panel.add(new JLabel("Descripcion:"));
+        panel.add(txtDescripcion);
+        panel.add(new JLabel("Precio:"));
+        panel.add(txtPrecio);
+        panel.add(new JLabel("Stock:"));
+        panel.add(txtStock);
+        panel.add(new JLabel("Material:"));
+        panel.add(txtMaterial);
+        panel.add(new JLabel("Uso:"));
+        panel.add(txtUso);
+        panel.add(new JLabel("Herramienta Necesaria:"));
+        panel.add(txtHerramienta);
+        int result = JOptionPane.showConfirmDialog(this, panel, "Agregar Producto", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                String nombre = txtNombre.getText();
+                String descripcion = txtDescripcion.getText();
+                double precio = Double.parseDouble(txtPrecio.getText());
+                int stock = Integer.parseInt(txtStock.getText());
+                String material = txtMaterial.getText();
+                String uso = txtUso.getText();
+                String herramienta = txtHerramienta.getText();
+
+                Producto nuevoProducto = new Producto(nombre, descripcion, precio, stock, material, uso, herramienta);
+                inventario.add(nuevoProducto);
+                mostrarinventario(panelInventario);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingresa valores validos.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    // Método para mostrar un diálogo para eliminar un producto del inventario
+    private void mostrarDialogoEliminarProducto(JPanel panelInventario) {
+        String[] nombresProductos = inventario.stream().map(Producto::getNombre).toArray(String[]::new);
+        String nombreProducto = (String) JOptionPane.showInputDialog(this, "Selecciona el producto a eliminar:",
+                "Eliminar Producto", JOptionPane.QUESTION_MESSAGE, null, nombresProductos, nombresProductos[0]);
+
+        if (nombreProducto != null) {
+            inventario.removeIf(producto -> producto.getNombre().equals(nombreProducto));
+            mostrarinventario(panelInventario);
+        }
+    }
+}
