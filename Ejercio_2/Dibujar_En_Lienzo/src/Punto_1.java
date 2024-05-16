@@ -28,8 +28,14 @@ public class Punto_1 extends JFrame implements MouseMotionListener {
 		new Punto_1(); 
 	}
 	@Override
-	public void mouseDragged(MouseEvent e) {}
+	public void mouseDragged(MouseEvent e) { 
 
+		// Obtiene el objeto Graphics para dibujar en la ventana
+		Graphics g = getGraphics(); 
+
+		// Dibuja un rectángulo relleno en la posición actual del mouse
+		g.fillRect(e.getX(), e.getY(),10,10); 
+	}
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 }
