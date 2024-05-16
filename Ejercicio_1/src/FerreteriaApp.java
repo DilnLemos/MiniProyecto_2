@@ -63,7 +63,7 @@ public class FerreteriaApp extends JFrame {
         boto_Actualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //mostrarDialogoActualizarProducto(panelInventario);
+                mostrarDialogoActualizarProducto(panelInventario);
             }
         });
 
@@ -197,4 +197,44 @@ public class FerreteriaApp extends JFrame {
             mostrarinventario(panelInventario);
         }
     }
+
+    // Método para mostrar un diálogo para actualizar el stock de un producto en el inventario
+    private void mostrarDialogoActualizarProducto(JPanel panelInventario) {
+        String[] nombresProductos = inventario.stream().map(Producto::getNombre).toArray(String[]::new);
+        String nombreProducto = (String) JOptionPane.showInputDialog(this, "Selecciona el producto a actualizar:",
+                "Actualizar Inventario", JOptionPane.QUESTION_MESSAGE, null, nombresProductos, nombresProductos[0]);
+
+        if (nombreProducto != null) {
+            Producto productoSeleccionado = inventario.stream().filter(producto -> producto.getNombre().equals(nombreProducto)).findFirst().orElse(null);
+            if (productoSeleccionado != null) {
+                JTextField txtCantidad = new JTextField();
+
+                JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+                panel.add(new JLabel("Cantidad a agregar/quitar:"));
+                panel.add(txtCantidad);
+
+                int result = JOptionPane.showConfirmDialog(this, panel, "Actualizar Producto", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (result == JOptionPane.OK_OPTION) {
+                    try {
+                        int cantidad = Integer.parseInt(txtCantidad.getText());
+                        productoSeleccionado.setStock(productoSeleccionado.getStock() + cantidad);
+                        mostrarinventario(panelInventario);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Por favor, ingresa un valor valido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        }
+    }
+
+    // Método principal que inicia la aplicación
+    public static void main(String[] args) {
+        // Ejecutar la aplicación en el hilo de eventos de Swing
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new FerreteriaApp();
+            }
+        });
+}
 }
