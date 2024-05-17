@@ -88,7 +88,6 @@ public class VisualStudiesGUI {
         ejecutar.add(new JMenuItem("Quitar todos los puntos de interrupción"));
         ejecutar.add(new JMenuItem("Instalar los depuradores adicionales"));
 
-         // PARTE 4 DILAN
          // Crear el menú "..." con sus elementos
         JMenu punto = new JMenu("...");
         punto.setForeground(Color.GRAY);
@@ -107,7 +106,84 @@ public class VisualStudiesGUI {
          // Establecer la barra de menú en la ventana
         ventana.setJMenuBar(menuBar);
 
-    }
+        // Crear el panel principal
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
 
+        // Crear el panel lateral izquierdo
+        JPanel panell = new JPanel();
+        panell.setBackground(color);
+        panell.setLayout(new BoxLayout(panell, BoxLayout.Y_AXIS));
+
+        // Crear el área de texto
+        JTextArea area = new JTextArea();
+        area.setBackground(color);
+        area.setForeground(Color.GRAY);
+        area.setBorder(null);
+        JScrollPane escroll = new JScrollPane(area);
+        escroll.setBorder(null);
+
+        // Dividir el área principal en dos partes
+        JSplitPane pane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panell, escroll);
+        pane.setDividerLocation(50);
+
+        // Crear los botones con iconos
+        Icon icon1 = new ImageIcon("src/uno.png");
+        JButton label1 = new JButton(icon1);
+        label1.setBorderPainted(false);
+        label1.setBackground(color);
+
+        Icon icon2 = new ImageIcon("src/dos.png");
+        JButton label2 = new JButton(icon2);
+        label2.setBorderPainted(false);
+        label2.setBackground(color);
+
+        Icon icon3 = new ImageIcon("src/tres.png");
+        JButton label3 = new JButton(icon3);
+        label3.setBorderPainted(false);
+        label3.setBackground(color);
+
+        Icon icon4 = new ImageIcon("src/Screenshot 2024-05-16 221814.png");
+        JButton label4 = new JButton(icon4);
+        label4.setBorderPainted(false);
+        label4.setBackground(color);
+
+        Icon icon5 = new ImageIcon("src/cinco.png");
+        JButton label5 = new JButton(icon5);
+        label5.setBorderPainted(false);
+        label5.setBackground(color);
+
+        Icon icon6 = new ImageIcon("src/seis.png");
+        JButton label6 = new JButton(icon6);
+        label6.setBorderPainted(false);
+        label6.setBackground(color);
+
+        Icon icon7 = new ImageIcon("src/siete.png");
+        JButton label7 = new JButton(icon7);
+        label7.setBorderPainted(false);
+        label7.setBackground(color);
+
+        // Crear un botón vacío para espacio adicional
+        JButton vacio1 = new JButton(" ");
+        vacio1.setBorderPainted(false);
+        vacio1.setBackground(color);
+        vacio1.setPreferredSize(new Dimension(50, 100));
+
+        // Añadir los botones al panel izquierdo
+        panell.add(label1);
+        panell.add(label2);
+        panell.add(label3);
+        panell.add(label4);
+        panell.add(label5);
+        panell.add(label6);
+        panell.add(label7);
+        panell.add(vacio1);
+
+        // Añadir el split pane al contenedor principal
+        contenedor.add(pane, BorderLayout.CENTER);
+
+        // Hacer visible la ventana
+        ventana.setVisible(true);
+    }
 }
 
